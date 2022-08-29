@@ -14,24 +14,53 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(expenses.items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                            Text(item.type)
-                        }
-                        Spacer()
-                        if item.amount < 100 {
-                            Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
-                                .foregroundColor(item.amount < 10 ? .green : .yellow)
-                        } else {
-                            Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
-                                .foregroundColor(.red)
+                Section {
+                
+                    ForEach(expenses.items) { item in
+                        if item.type == "Personal" {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(item.name)
+                                        .font(.headline)
+                                    Text(item.type)
+                                }
+                                Spacer()
+                                if item.amount < 100 {
+                                    Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                                        .foregroundColor(item.amount < 10 ? .green : .yellow)
+                                } else {
+                                    Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                                        .foregroundColor(.red)
+                                }
+                            }
                         }
                     }
+                    .onDelete(perform: removeItems)
                 }
-                .onDelete(perform: removeItems)
+            
+                
+                Section {
+                    ForEach(expenses.items) { item in
+                        if item.type != "Personal" {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(item.name)
+                                        .font(.headline)
+                                    Text(item.type)
+                                }
+                                Spacer()
+                                if item.amount < 100 {
+                                    Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                                        .foregroundColor(item.amount < 10 ? .green : .yellow)
+                                } else {
+                                    Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                                        .foregroundColor(.red)
+                                }
+                            }
+                        }
+                    }
+                    .onDelete(perform: removeItems)
+                }
             }
             .navigationTitle("iExpense")
             .toolbar {
